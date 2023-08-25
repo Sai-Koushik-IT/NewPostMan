@@ -1,0 +1,1164 @@
+{
+	"info": {
+		"_postman_id": "7aec739f-7d0d-4b39-b9a5-a7c1ae83e1d8",
+		"name": "Work Order and Incident",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29080485",
+		"_collection_link": "https://www.postman.com/speeding-zodiac-623538/workspace/new-team-workspace/collection/29080485-7aec739f-7d0d-4b39-b9a5-a7c1ae83e1d8?action=share&source=collection_link&creator=29080485"
+	},
+	"item": [
+		{
+			"name": "Workorder Status Type",
+			"item": [
+				{
+					"name": "/workorder-statuses",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response time is less than 2000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "CSCS-Authorization-Token",
+								"value": "{{sst-auth-token}}",
+								"type": "default"
+							},
+							{
+								"key": "DCCODE",
+								"value": "{{sst_dcCode}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{sst-local-url}}/workorder-statuses",
+							"host": [
+								"{{sst-local-url}}"
+							],
+							"path": [
+								"workorder-statuses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/workorder-statuses",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Store workorder type data in global variables\", function () {",
+									"    var responseBody = pm.response.json();",
+									"    var WID = responseBody.id;",
+									"    pm.globals.set(\"WorkOrderId\", WID);",
+									"    var WID = responseBody.workorderStatus;",
+									"    pm.globals.set(\"WorkOrderStatus\", WID);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response time is less than 2000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "CSCS-Authorization-Token",
+								"value": "{{sst-auth-token}}",
+								"type": "default"
+							},
+							{
+								"key": "DCCODE",
+								"value": "{{sst_dcCode}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"workorderStatus\":\"{{$randomWord}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{sst-local-url}}/workorder-statuses",
+							"host": [
+								"{{sst-local-url}}"
+							],
+							"path": [
+								"workorder-statuses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/workorder-statuses/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "CSCS-Authorization-Token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsImZpcnN0bmFtZSI6InNzdCIsIm9yZ05hbWUiOiJTU1QiLCJyb2xlcyI6IlNTVF9BRE1JTiIsInVzZXJJZCI6MTIsIm9yZ0lkIjoiMTQiLCJsYXN0bmFtZSI6InRlc3R1c2VyIiwiZ2xvYmFsT3JnQ29kZSI6Im51bGwiLCJvcmdDb2RlIjoiU1NUIiwicGVybWlzc2lvbnMiOiIiLCJ1c2VyVHlwZSI6MCwiZXhwIjoxNjkzMDI4ODg0NDk0LCJlbWFpbCI6InNzdC10ZXN0dXNlckBjc2NzLmlvIiwidXNlcm5hbWUiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsInZlbmRvckNvZGVzIjoiIn0.hoMhxmTo7lR2N94mcNKxHrfzKOm6FgjKii2ctJicUuGmaziLfk1lA-njaeW1ilqWOmLNPUx9hzn5YhKRPYTqVw",
+								"type": "default"
+							},
+							{
+								"key": "DCCODE",
+								"value": "{{sst_dcCode}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{sst-local-url}}/workorder-statuses/{{WorkOrderId}}",
+							"host": [
+								"{{sst-local-url}}"
+							],
+							"path": [
+								"workorder-statuses",
+								"{{WorkOrderId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/workorder-statuses/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response time is less than 2000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "CSCS-Authorization-Token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsImZpcnN0bmFtZSI6InNzdCIsIm9yZ05hbWUiOiJTU1QiLCJyb2xlcyI6IlNTVF9BRE1JTiIsInVzZXJJZCI6MTIsIm9yZ0lkIjoiMTQiLCJsYXN0bmFtZSI6InRlc3R1c2VyIiwiZ2xvYmFsT3JnQ29kZSI6Im51bGwiLCJvcmdDb2RlIjoiU1NUIiwicGVybWlzc2lvbnMiOiIiLCJ1c2VyVHlwZSI6MCwiZXhwIjoxNjkzMDI4ODg0NDk0LCJlbWFpbCI6InNzdC10ZXN0dXNlckBjc2NzLmlvIiwidXNlcm5hbWUiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsInZlbmRvckNvZGVzIjoiIn0.hoMhxmTo7lR2N94mcNKxHrfzKOm6FgjKii2ctJicUuGmaziLfk1lA-njaeW1ilqWOmLNPUx9hzn5YhKRPYTqVw",
+								"type": "default"
+							},
+							{
+								"key": "DCCODE",
+								"value": "{{sst_dcCode}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"createdBy\": \"sst-testuser@cscs.io\",\r\n    \"createdDate\": \"2023-08-21T08:35:03.574458Z\",\r\n    \"modifiedBy\": \"sst-testuser@cscs.io\",\r\n    \"modifiedDate\": \"2023-08-21T08:35:21.558855Z\",\r\n    \"id\": {{WorkOrderId}} ,\r\n    \"workorderStatus\": \"{{$randomWord}}\",\r\n    \"dcCode\": \"SST\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{sst-local-url}}/workorder-statuses/{{WorkOrderId}}",
+							"host": [
+								"{{sst-local-url}}"
+							],
+							"path": [
+								"workorder-statuses",
+								"{{WorkOrderId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Work Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response time is less than 9000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(9000);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "CSCS-Authorization-Token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsImZpcnN0bmFtZSI6InNzdCIsIm9yZ05hbWUiOiJTU1QiLCJyb2xlcyI6IlNTVF9BRE1JTiIsInVzZXJJZCI6MTIsIm9yZ0lkIjoiMTQiLCJsYXN0bmFtZSI6InRlc3R1c2VyIiwiZ2xvYmFsT3JnQ29kZSI6Im51bGwiLCJvcmdDb2RlIjoiU1NUIiwicGVybWlzc2lvbnMiOiIiLCJ1c2VyVHlwZSI6MCwiZXhwIjoxNjkzMDI4ODg0NDk0LCJlbWFpbCI6InNzdC10ZXN0dXNlckBjc2NzLmlvIiwidXNlcm5hbWUiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsInZlbmRvckNvZGVzIjoiIn0.hoMhxmTo7lR2N94mcNKxHrfzKOm6FgjKii2ctJicUuGmaziLfk1lA-njaeW1ilqWOmLNPUx9hzn5YhKRPYTqVw",
+								"type": "default"
+							},
+							{
+								"key": "DCCODE",
+								"value": "{{sst_dcCode}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{sst-local-url}}/work-order",
+							"host": [
+								"{{sst-local-url}}"
+							],
+							"path": [
+								"work-order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Work Order",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var WO = \"WO_\"+pm.variables.replaceIn('{{$randomInt}}');",
+									"pm.environment.set(\"Random_WO\", WO);",
+									"",
+									"",
+									"var choices = [\"LOW\", \"MEDIUM\", \"HIGH\", \"VERY_HIGH\"];",
+									"var randomChoice = choices[Math.floor(Math.random() * choices.length)];",
+									"postman.setEnvironmentVariable(\"random_Priority\", randomChoice);",
+									"",
+									"",
+									"var choices = [\"Planned\", \"Draft\", \"InProgress\", \"Approved\"];",
+									"var randomChoice = choices[Math.floor(Math.random() * choices.length)];",
+									"postman.setEnvironmentVariable(\"random_Status\", randomChoice);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 2000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.globals.set(\"WO_ID\", jsonData.id);",
+									"pm.globals.set(\"WO_Code\", jsonData.code);",
+									"",
+									"",
+									"var wo_Code = pm.globals.get(\"WO_Code\");",
+									"pm.test(\"Body includes WorkOrder_Code value\", function () {",
+									"    pm.expect(pm.response.text()).to.include(wo_Code);",
+									"});",
+									"",
+									"",
+									"var responseJson = pm.response.json();",
+									"var expectedStatus = pm.variables.get(\"WorkOrderStatus\"); ",
+									"var actualStatus = responseJson.status;",
+									"",
+									"pm.test(\"Validate 'status' field\", function () {",
+									"    pm.expect(actualStatus).to.eql(expectedStatus);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "CSCS-Authorization-Token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsImZpcnN0bmFtZSI6InNzdCIsIm9yZ05hbWUiOiJTU1QiLCJyb2xlcyI6IlNTVF9BRE1JTiIsInVzZXJJZCI6MTIsIm9yZ0lkIjoiMTQiLCJsYXN0bmFtZSI6InRlc3R1c2VyIiwiZ2xvYmFsT3JnQ29kZSI6Im51bGwiLCJvcmdDb2RlIjoiU1NUIiwicGVybWlzc2lvbnMiOiIiLCJ1c2VyVHlwZSI6MCwiZXhwIjoxNjkzMDI4ODg0NDk0LCJlbWFpbCI6InNzdC10ZXN0dXNlckBjc2NzLmlvIiwidXNlcm5hbWUiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsInZlbmRvckNvZGVzIjoiIn0.hoMhxmTo7lR2N94mcNKxHrfzKOm6FgjKii2ctJicUuGmaziLfk1lA-njaeW1ilqWOmLNPUx9hzn5YhKRPYTqVw",
+								"type": "default"
+							},
+							{
+								"key": "DCCODE",
+								"value": "{{sst_dcCode}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"\",\r\n    \"code\": \"{{Random_WO}}\",\r\n    \"projectId\": \"481\",\r\n    \"projectName\": \"PN_23\",\r\n    \"priority\": \"{{random_Priority}}\",\r\n    \"status\": \"{{WorkOrderStatus}}\",\r\n    \"startDate\": \"2023-07-22\",\r\n    \"endDate\": \"2030-09-25\",\r\n    \"description\": \"front-end withdrawal Open-source Car\",\r\n    \"employee\": {\r\n        \"createdBy\": \"testuser@cscs.io\",\r\n        \"createdDate\": \"2023-08-03T10:58:59.393342Z\",\r\n        \"modifiedBy\": \"testuser@cscs.io\",\r\n        \"modifiedDate\": \"2023-08-10T04:07:30.791933Z\",\r\n        \"id\": 42,\r\n        \"dcCode\": \"CSCS\",\r\n        \"code\": \"E2\",\r\n        \"firstName\": \"Eva\",\r\n        \"lastName\": \"George\",\r\n        \"email\": \"EG@cscs.io\",\r\n        \"employeeType\": \"Manager\",\r\n        \"joinDate\": null,\r\n        \"hireDate\": null,\r\n        \"birthDate\": null,\r\n        \"phoneNumber\": \"+919773368123\",\r\n        \"address\": {\r\n            \"id\": 62,\r\n            \"address1\": null,\r\n            \"address2\": null,\r\n            \"city\": null,\r\n            \"state\": null,\r\n            \"zipCode\": null,\r\n            \"country\": null\r\n        }\r\n    },\r\n    \"workorderDocuments\": [],\r\n    \"workOrderActivities\": [\r\n        {\r\n            \"id\": null,\r\n            \"dcCode\": \"CSCS\",\r\n            \"workOrderId\": \"\",\r\n            \"projectAssetId\": \"659\",\r\n            \"startDateTime\": \"2023-08-20T07:11:00.000Z\",\r\n            \"endDateTime\": \"2023-08-24T07:11:00.000Z\",\r\n            \"description\": \"Nakfa Dale District\",\r\n            \"totalHour\": \"889\",\r\n            \"activityType\": \"BA_563\",\r\n            \"location\": {\r\n                \"locationCode\": \"Expeditors International (UK) Ltd\"\r\n            },\r\n            \"status\": \"Approved\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{sst-local-url}}/work-order",
+							"host": [
+								"{{sst-local-url}}"
+							],
+							"path": [
+								"work-order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Work Order By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "CSCS-Authorization-Token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsImZpcnN0bmFtZSI6InNzdCIsIm9yZ05hbWUiOiJTU1QiLCJyb2xlcyI6IlNTVF9BRE1JTiIsInVzZXJJZCI6MTIsIm9yZ0lkIjoiMTQiLCJsYXN0bmFtZSI6InRlc3R1c2VyIiwiZ2xvYmFsT3JnQ29kZSI6Im51bGwiLCJvcmdDb2RlIjoiU1NUIiwicGVybWlzc2lvbnMiOiIiLCJ1c2VyVHlwZSI6MCwiZXhwIjoxNjkzMDI4ODg0NDk0LCJlbWFpbCI6InNzdC10ZXN0dXNlckBjc2NzLmlvIiwidXNlcm5hbWUiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsInZlbmRvckNvZGVzIjoiIn0.hoMhxmTo7lR2N94mcNKxHrfzKOm6FgjKii2ctJicUuGmaziLfk1lA-njaeW1ilqWOmLNPUx9hzn5YhKRPYTqVw",
+								"type": "text"
+							},
+							{
+								"key": "DCCODE",
+								"value": "{{sst_dcCode}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{sst-local-url}}work-order/{{WO_ID}}",
+							"host": [
+								"{{sst-local-url}}work-order"
+							],
+							"path": [
+								"{{WO_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Work Order",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var WO = \"WO_new_\"+pm.variables.replaceIn('{{$randomInt}}');",
+									"pm.environment.set(\"Random_WO\", WO);",
+									"",
+									"",
+									"var choices = [\"LOW\", \"MEDIUM\", \"HIGH\", \"VERY_HIGH\"];",
+									"var randomChoice = choices[Math.floor(Math.random() * choices.length)];",
+									"postman.setEnvironmentVariable(\"random_Priority\", randomChoice);",
+									"",
+									"",
+									"var choices = [\"Planned\", \"Draft\", \"InProgress\", \"Approved\"];",
+									"var randomChoice = choices[Math.floor(Math.random() * choices.length)];",
+									"postman.setEnvironmentVariable(\"random_Status\", randomChoice);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Response time is less than 000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "CSCS-Authorization-Token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsImZpcnN0bmFtZSI6InNzdCIsIm9yZ05hbWUiOiJTU1QiLCJyb2xlcyI6IlNTVF9BRE1JTiIsInVzZXJJZCI6MTIsIm9yZ0lkIjoiMTQiLCJsYXN0bmFtZSI6InRlc3R1c2VyIiwiZ2xvYmFsT3JnQ29kZSI6Im51bGwiLCJvcmdDb2RlIjoiU1NUIiwicGVybWlzc2lvbnMiOiIiLCJ1c2VyVHlwZSI6MCwiZXhwIjoxNjkzMDI4ODg0NDk0LCJlbWFpbCI6InNzdC10ZXN0dXNlckBjc2NzLmlvIiwidXNlcm5hbWUiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsInZlbmRvckNvZGVzIjoiIn0.hoMhxmTo7lR2N94mcNKxHrfzKOm6FgjKii2ctJicUuGmaziLfk1lA-njaeW1ilqWOmLNPUx9hzn5YhKRPYTqVw",
+								"type": "default"
+							},
+							{
+								"key": "DCCODE",
+								"value": "{{sst_dcCode}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"\",\r\n    \"code\": \"{{Random_WO}}\",\r\n    \"projectId\": \"481\",\r\n    \"projectName\": \"PN_23\",\r\n    \"priority\": \"{{random_Priority}}\",\r\n    \"status\": \"{{WorkOrderStatus}}\",\r\n    \"startDate\": \"2023-07-22\",\r\n    \"endDate\": \"2030-09-25\",\r\n    \"description\": \"front-end withdrawal Open-source Car\",\r\n    \"employee\": {\r\n        \"createdBy\": \"testuser@cscs.io\",\r\n        \"createdDate\": \"2023-08-03T10:58:59.393342Z\",\r\n        \"modifiedBy\": \"testuser@cscs.io\",\r\n        \"modifiedDate\": \"2023-08-10T04:07:30.791933Z\",\r\n        \"id\": 42,\r\n        \"dcCode\": \"CSCS\",\r\n        \"code\": \"E2\",\r\n        \"firstName\": \"Eva\",\r\n        \"lastName\": \"George\",\r\n        \"email\": \"EG@cscs.io\",\r\n        \"employeeType\": \"Manager\",\r\n        \"joinDate\": null,\r\n        \"hireDate\": null,\r\n        \"birthDate\": null,\r\n        \"phoneNumber\": \"+919773368123\",\r\n        \"address\": {\r\n            \"id\": 62,\r\n            \"address1\": null,\r\n            \"address2\": null,\r\n            \"city\": null,\r\n            \"state\": null,\r\n            \"zipCode\": null,\r\n            \"country\": null\r\n        }\r\n    },\r\n    \"workorderDocuments\": [],\r\n    \"workOrderActivities\": [\r\n        {\r\n            \"id\": null,\r\n            \"dcCode\": \"CSCS\",\r\n            \"workOrderId\": \"\",\r\n            \"projectAssetId\": \"659\",\r\n            \"startDateTime\": \"2023-08-20T07:11:00.000Z\",\r\n            \"endDateTime\": \"2023-08-24T07:11:00.000Z\",\r\n            \"description\": \"Nakfa Dale District\",\r\n            \"totalHour\": \"889\",\r\n            \"activityType\": \"BA_563\",\r\n            \"location\": {\r\n                \"locationCode\": \"Expeditors International (UK) Ltd\"\r\n            },\r\n            \"status\": \"Approved\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{sst-local-url}}/work-order/{{WO_ID}}",
+							"host": [
+								"{{sst-local-url}}"
+							],
+							"path": [
+								"work-order",
+								"{{WO_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Work Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									"pm.test(\"Response time is less than 2000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "CSCS-Authorization-Token",
+								"value": "{{sst-auth-token}}",
+								"type": "default"
+							},
+							{
+								"key": "DCCODE",
+								"value": "{{sst_dcCode}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{sst-local-url}}/work-order/{{WO_ID}}",
+							"host": [
+								"{{sst-local-url}}"
+							],
+							"path": [
+								"work-order",
+								"{{WO_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/workorder-statuses/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "CSCS-Authorization-Token",
+								"value": "{{sst-auth-token}}",
+								"type": "default"
+							},
+							{
+								"key": "DCCODE",
+								"value": "{{sst_dcCode}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{sst-local-url}}/workorder-statuses/{{WorkOrderId}}",
+							"host": [
+								"{{sst-local-url}}"
+							],
+							"path": [
+								"workorder-statuses",
+								"{{WorkOrderId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Incident_Types",
+			"item": [
+				{
+					"name": "get incident-types",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response time is less than 2000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "cscs-authorization-token",
+								"value": "{{sst-auth-token}}"
+							},
+							{
+								"key": "dccode",
+								"value": "{{sst_dcCode}}"
+							}
+						],
+						"url": {
+							"raw": "{{sst-local-url}}/incident-types",
+							"host": [
+								"{{sst-local-url}}"
+							],
+							"path": [
+								"incident-types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create incident-types",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"pm.globals.set(\"IT_ID\", jsonData.id);",
+									"pm.globals.set(\"IT_type\", jsonData.incidentType);",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "cscs-authorization-token",
+								"value": "{{sst-auth-token}}"
+							},
+							{
+								"key": "dccode",
+								"value": "{{sst_dcCode}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "        {\n            \"incidentType\": \"{{$randomWords}}\"\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{sst-local-url}}/incident-types",
+							"host": [
+								"{{sst-local-url}}"
+							],
+							"path": [
+								"incident-types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get incident-types/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "cscs-authorization-token",
+								"value": "{{sst-auth-token}}"
+							},
+							{
+								"key": "dccode",
+								"value": "{{sst_dcCode}}"
+							}
+						],
+						"url": {
+							"raw": "{{sst-local-url}}/incident-types/{{IT_ID}}",
+							"host": [
+								"{{sst-local-url}}"
+							],
+							"path": [
+								"incident-types",
+								"{{IT_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update incident-types/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"pm.globals.set(\"IT_ID\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "cscs-authorization-token",
+								"value": "{{sst-auth-token}}"
+							},
+							{
+								"key": "dccode",
+								"value": "{{sst_dcCode}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "        {\n            \"incidentType\": \"{{$randomWords}}\"\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{sst-local-url}}/incident-types/{{IT_ID}}",
+							"host": [
+								"{{sst-local-url}}"
+							],
+							"path": [
+								"incident-types",
+								"{{IT_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Asset Incident",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 4000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(4000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "CSCS-Authorization-Token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsImZpcnN0bmFtZSI6InNzdCIsIm9yZ05hbWUiOiJTU1QiLCJyb2xlcyI6IlNTVF9BRE1JTiIsInVzZXJJZCI6MTIsIm9yZ0lkIjoiMTQiLCJsYXN0bmFtZSI6InRlc3R1c2VyIiwiZ2xvYmFsT3JnQ29kZSI6Im51bGwiLCJvcmdDb2RlIjoiU1NUIiwicGVybWlzc2lvbnMiOiIiLCJ1c2VyVHlwZSI6MCwiZXhwIjoxNjkzMDI4ODg0NDk0LCJlbWFpbCI6InNzdC10ZXN0dXNlckBjc2NzLmlvIiwidXNlcm5hbWUiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsInZlbmRvckNvZGVzIjoiIn0.hoMhxmTo7lR2N94mcNKxHrfzKOm6FgjKii2ctJicUuGmaziLfk1lA-njaeW1ilqWOmLNPUx9hzn5YhKRPYTqVw",
+								"type": "default"
+							},
+							{
+								"key": "DCCODE",
+								"value": "SST",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://qa.cscs-apps.com/cam/asset-incidents",
+							"protocol": "https",
+							"host": [
+								"qa",
+								"cscs-apps",
+								"com"
+							],
+							"path": [
+								"cam",
+								"asset-incidents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Asset Incident",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 3000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"\r",
+									"var responseJson = pm.response.json();\r",
+									"var expectedStatus = pm.variables.get(\"IT_type\"); \r",
+									"var actualStatus = responseJson.type;\r",
+									"pm.test(\"Validate 'status' field\", function () {\r",
+									"    pm.expect(actualStatus).to.eql(expectedStatus);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonDate = pm.response.json()\r",
+									"pm.collectionVariables.set(\"IN_id\", jsonDate.id);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var choices = [\"LOW\", \"MEDIUM\", \"HIGH\", \"VERY_HIGH\"];\r",
+									"var randomChoice = choices[Math.floor(Math.random() * choices.length)];\r",
+									"postman.setEnvironmentVariable(\"Priority\", randomChoice);\r",
+									"\r",
+									"\r",
+									"var choices = [\"Reviewed\", \"Submitted\"];\r",
+									"var randomChoice = choices[Math.floor(Math.random() * choices.length)];\r",
+									"postman.setEnvironmentVariable(\"Status\", randomChoice);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "CSCS-Authorization-Token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsImZpcnN0bmFtZSI6InNzdCIsIm9yZ05hbWUiOiJTU1QiLCJyb2xlcyI6IlNTVF9BRE1JTiIsInVzZXJJZCI6MTIsIm9yZ0lkIjoiMTQiLCJsYXN0bmFtZSI6InRlc3R1c2VyIiwiZ2xvYmFsT3JnQ29kZSI6Im51bGwiLCJvcmdDb2RlIjoiU1NUIiwicGVybWlzc2lvbnMiOiIiLCJ1c2VyVHlwZSI6MCwiZXhwIjoxNjkzMDI4ODg0NDk0LCJlbWFpbCI6InNzdC10ZXN0dXNlckBjc2NzLmlvIiwidXNlcm5hbWUiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsInZlbmRvckNvZGVzIjoiIn0.hoMhxmTo7lR2N94mcNKxHrfzKOm6FgjKii2ctJicUuGmaziLfk1lA-njaeW1ilqWOmLNPUx9hzn5YhKRPYTqVw",
+								"type": "default"
+							},
+							{
+								"key": "DCCODE",
+								"value": "SST",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"\",\r\n    \"dcCode\": \"SST\",\r\n    \"project\": {\r\n        \"id\": \"71\"\r\n    },\r\n    \"asset\": {\r\n        \"code\": \"SST_AS_001\"\r\n    },\r\n    \"workOrder\": {\r\n        \"id\": \"60\"\r\n    },\r\n    \"reportedBy\": \"\",\r\n    \"status\":\"{{Status}}\",\r\n    \"priority\": \"{{Priority}}\",\r\n    \"location\": {\r\n        \"address1\": \"828 Johnson Track\",\r\n        \"address2\": \"804 Raphaelle Bridge\",\r\n        \"country\": \"Martinique\",\r\n        \"city\": \"East Kendallstad\",\r\n        \"state\": \"East Lillian\",\r\n        \"postalCode\": \"NF\",\r\n        \"zip\": \"HM\",\r\n        \"contactName\": \"Angelo\",\r\n        \"contactPhone\": \"741-699-7712\",\r\n        \"locationCode\": \"\"\r\n    },\r\n    \"type\": \"{{IT_type}}\",\r\n    \"dateTime\": \"2023-09-11T07:06:00.000Z\",\r\n    \"description\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qa.cscs-apps.com/cam/asset-incidents",
+							"protocol": "https",
+							"host": [
+								"qa",
+								"cscs-apps",
+								"com"
+							],
+							"path": [
+								"cam",
+								"asset-incidents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Asset Incident/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 4000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(4000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "CSCS-Authorization-Token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsImZpcnN0bmFtZSI6InNzdCIsIm9yZ05hbWUiOiJTU1QiLCJyb2xlcyI6IlNTVF9BRE1JTiIsInVzZXJJZCI6MTIsIm9yZ0lkIjoiMTQiLCJsYXN0bmFtZSI6InRlc3R1c2VyIiwiZ2xvYmFsT3JnQ29kZSI6Im51bGwiLCJvcmdDb2RlIjoiU1NUIiwicGVybWlzc2lvbnMiOiIiLCJ1c2VyVHlwZSI6MCwiZXhwIjoxNjkzMDI4ODg0NDk0LCJlbWFpbCI6InNzdC10ZXN0dXNlckBjc2NzLmlvIiwidXNlcm5hbWUiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsInZlbmRvckNvZGVzIjoiIn0.hoMhxmTo7lR2N94mcNKxHrfzKOm6FgjKii2ctJicUuGmaziLfk1lA-njaeW1ilqWOmLNPUx9hzn5YhKRPYTqVw",
+								"type": "default"
+							},
+							{
+								"key": "DCCODE",
+								"value": "SST",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://qa.cscs-apps.com/cam/asset-incidents/{{IN_id}}",
+							"protocol": "https",
+							"host": [
+								"qa",
+								"cscs-apps",
+								"com"
+							],
+							"path": [
+								"cam",
+								"asset-incidents",
+								"{{IN_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Asset Incident",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"    \r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var choices = [\"LOW\", \"MEDIUM\", \"HIGH\", \"VERY_HIGH\"];",
+									"var randomChoice = choices[Math.floor(Math.random() * choices.length)];",
+									"postman.setEnvironmentVariable(\"random_Priority\", randomChoice);",
+									"",
+									"",
+									"var choices = [\"REVIEWED\", \"SUBMITTED\"];",
+									"var randomChoice = choices[Math.floor(Math.random() * choices.length)];",
+									"postman.setEnvironmentVariable(\"random_Status\", randomChoice);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "CSCS-Authorization-Token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsImZpcnN0bmFtZSI6InNzdCIsIm9yZ05hbWUiOiJTU1QiLCJyb2xlcyI6IlNTVF9BRE1JTiIsInVzZXJJZCI6MTIsIm9yZ0lkIjoiMTQiLCJsYXN0bmFtZSI6InRlc3R1c2VyIiwiZ2xvYmFsT3JnQ29kZSI6Im51bGwiLCJvcmdDb2RlIjoiU1NUIiwicGVybWlzc2lvbnMiOiIiLCJ1c2VyVHlwZSI6MCwiZXhwIjoxNjkzMDI4ODg0NDk0LCJlbWFpbCI6InNzdC10ZXN0dXNlckBjc2NzLmlvIiwidXNlcm5hbWUiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsInZlbmRvckNvZGVzIjoiIn0.hoMhxmTo7lR2N94mcNKxHrfzKOm6FgjKii2ctJicUuGmaziLfk1lA-njaeW1ilqWOmLNPUx9hzn5YhKRPYTqVw",
+								"type": "default"
+							},
+							{
+								"key": "DCCODE",
+								"value": "SST",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"\",\r\n    \"dcCode\": \"SST\",\r\n    \"project\": {\r\n        \"id\": \"71\"\r\n    },\r\n    \"asset\": {\r\n        \"code\": \"SST_AS_001\"\r\n    },\r\n    \"workOrder\": {\r\n        \"id\": \"60\"\r\n    },\r\n    \"reportedBy\": \"\",\r\n    \"status\":\"REVIEWED\",\r\n    \"priority\": \"MEDIUM\",\r\n    \"location\": {\r\n        \"address1\": \"828 Johnson Track\",\r\n        \"address2\": \"804 Raphaelle Bridge\",\r\n        \"country\": \"Martinique\",\r\n        \"city\": \"East Kendallstad\",\r\n        \"state\": \"East Lillian\",\r\n        \"postalCode\": \"NF\",\r\n        \"zip\": \"HM\",\r\n        \"contactName\": \"Angelo\",\r\n        \"contactPhone\": \"741-699-7712\",\r\n        \"locationCode\": \"\"\r\n    },\r\n    \"type\": \"wheel\",\r\n    \"dateTime\": \"2023-09-11T07:06:00.000Z\",\r\n    \"description\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qa.cscs-apps.com/cam/asset-incidents/{{IN_id}}",
+							"protocol": "https",
+							"host": [
+								"qa",
+								"cscs-apps",
+								"com"
+							],
+							"path": [
+								"cam",
+								"asset-incidents",
+								"{{IN_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Asset Incident/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "CSCS-Authorization-Token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsImZpcnN0bmFtZSI6InNzdCIsIm9yZ05hbWUiOiJTU1QiLCJyb2xlcyI6IlNTVF9BRE1JTiIsInVzZXJJZCI6MTIsIm9yZ0lkIjoiMTQiLCJsYXN0bmFtZSI6InRlc3R1c2VyIiwiZ2xvYmFsT3JnQ29kZSI6Im51bGwiLCJvcmdDb2RlIjoiU1NUIiwicGVybWlzc2lvbnMiOiIiLCJ1c2VyVHlwZSI6MCwiZXhwIjoxNjkzMDI4ODg0NDk0LCJlbWFpbCI6InNzdC10ZXN0dXNlckBjc2NzLmlvIiwidXNlcm5hbWUiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsInZlbmRvckNvZGVzIjoiIn0.hoMhxmTo7lR2N94mcNKxHrfzKOm6FgjKii2ctJicUuGmaziLfk1lA-njaeW1ilqWOmLNPUx9hzn5YhKRPYTqVw",
+								"type": "default"
+							},
+							{
+								"key": "DCCODE",
+								"value": "SST",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://qa.cscs-apps.com/cam/asset-incidents/{{IN_id}}",
+							"protocol": "https",
+							"host": [
+								"qa",
+								"cscs-apps",
+								"com"
+							],
+							"path": [
+								"cam",
+								"asset-incidents",
+								"{{IN_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete  incident-types/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									"pm.test(\"Response time is less than 2000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "cscs-authorization-token",
+								"value": "{{sst-auth-token}}"
+							},
+							{
+								"key": "dccode",
+								"value": "{{sst_dcCode}}"
+							}
+						],
+						"url": {
+							"raw": "{{sst-local-url}}/incident-types/{{IT_ID}}",
+							"host": [
+								"{{sst-local-url}}"
+							],
+							"path": [
+								"incident-types",
+								"{{IT_ID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "sst-local-url",
+			"value": "https://qa.cscs-apps.com/cam"
+		},
+		{
+			"key": "sst-auth-token",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsImZpcnN0bmFtZSI6InNzdCIsIm9yZ05hbWUiOiJTU1QiLCJyb2xlcyI6IlNTVF9BRE1JTiIsInVzZXJJZCI6MTIsIm9yZ0lkIjoiMTQiLCJsYXN0bmFtZSI6InRlc3R1c2VyIiwiZ2xvYmFsT3JnQ29kZSI6Im51bGwiLCJvcmdDb2RlIjoiU1NUIiwicGVybWlzc2lvbnMiOiIiLCJ1c2VyVHlwZSI6MCwiZXhwIjoxNjkyNDQyMzAwNTgxLCJlbWFpbCI6InNzdC10ZXN0dXNlckBjc2NzLmlvIiwidXNlcm5hbWUiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsInZlbmRvckNvZGVzIjoiIn0.edgXdSQW6cCPS83E54D_Wxd983VM_t5S1GCOXsw4xWsIU9EbyIegEVqkRIMwAIZgsytWzF0DW2yIkXsku7ydFA"
+		},
+		{
+			"key": "sst_dcCode",
+			"value": "SST"
+		},
+		{
+			"key": "IN_id",
+			"value": ""
+		}
+	]
+}
